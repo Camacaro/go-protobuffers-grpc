@@ -4,9 +4,12 @@ syntax = "proto3";
 // Paquete en que va a vivir, paquete studen
 package  student;
 
-// Una opcion nueva, esto indica el nombre que tendra el paquete
-// Que se va a crear a partir de este codigo
-option go_package = "go-protobuffers-grpc/01-proto/go-grpc;studentpb";
+/*
+  Una opcion nueva, esto indica el nombre que tendra el paquete
+  Que se va a crear a partir de este codigo
+  path -> CARPETA_PRINCIPAL/SUB_CARPETA/(estando en la raiz del go.mod)/NAME_MODULE;NAME_FILE
+*/
+option go_package = "go-protobuffers-grpc/01-proto/gogrpc;studentpb";
 
 // Estructura 
 message Student {
@@ -23,9 +26,12 @@ message Student {
 // $ go install google.golang.org/grpc/cmd/protoc-gen-go-grpc@v1.1
 
 // Ahora vamos a poder compilar nuestro protobor de buffer
-// Paquete de protobuffer -> paquete de go
-// $ protoc --go_out=. --go_opt=paths=source_relative --go-grpc_out=. --go-grpc_opt=paths=source_relative student.proto
+// Paquete de protobuffer a paquete de go (Ejecutar este comando desde la raiz del go.mod)
+// $ protoc --go_out=. --go_opt=paths=source_relative --go-grpc_out=. --go-grpc_opt=paths=source_relative proto/student.proto
 
+
+// Windows 
+// $ sudo apt install protobuf-compiler
 
 // Mac
 // $ brew install protobuf
