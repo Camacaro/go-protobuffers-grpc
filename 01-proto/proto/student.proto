@@ -6,7 +6,7 @@ package  student;
 
 // Una opcion nueva, esto indica el nombre que tendra el paquete
 // Que se va a crear a partir de este codigo
-option go_package = "gogrpc;studentpb";
+option go_package = "go-protobuffers-grpc/01-proto/go-grpc;studentpb";
 
 // Estructura 
 message Student {
