@@ -22,7 +22,7 @@ func NewPostgresRepository(url string) (*PostgresRepository, error) {
 	return &PostgresRepository{db}, nil
 }
 
-func (r *PostgresRepository) GetStudents(ctx context.Context, id string) (*models.Student, error) {
+func (r *PostgresRepository) GetStudent(ctx context.Context, id string) (*models.Student, error) {
 	rows, err := r.db.QueryContext(ctx, "SELECT id, name, age FROM students WHERE id = $1", id)
 	if err != nil {
 		return nil, err
