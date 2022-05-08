@@ -32,3 +32,8 @@ go get github.com/lib/pq
 Necesario apra los servicios de grpc, para poder implementar clientes 
 y servidores
 go get google.golang.org/grpc
+
+
+Docker database
+docker build . -t grpc-db
+docker run -p 54321:5432 grpc-db

@@ -32,6 +32,19 @@ func main() {
 		Nos va a servir para decirle a los clientes (postman)
 		que podemos proveer cierta metadata para poder testear
 		la API y va a deoender de lo que reflection le este dando de data
+
+		Dentro del postman nos va a pedir los metodos
+		"
+			Load services and methods
+			Choose how you want to load the services and methods.
+			You can use a protobuf definition or load them using
+			server reflection.
+		"
+		Por eso usamos reflection, al hacerlo nos va a deplegar las
+		dos metodos que tenemos en el server (studentproto.go)
+		y que estan en el package studentproto SetStudent y GetStudent
+
+		PD: la respuesta es application/grpc
 	*/
 	reflection.Register(s) // Registramos el server para que sepa que estamos usando el protobuffer
 
