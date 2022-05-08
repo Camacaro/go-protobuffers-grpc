@@ -1,0 +1,57 @@
+<mxfile host="65bd71144e">
+    <diagram id="MeONn5hRzYPqeKkZDsrW" name="Page-1">
+        <mxGraphModel dx="882" dy="659" grid="0" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="850" pageHeight="1100" math="0" shadow="0">
+            <root>
+                <mxCell id="0"/>
+                <mxCell id="1" parent="0"/>
+                <mxCell id="11" style="edgeStyle=orthogonalEdgeStyle;curved=1;html=1;exitX=0.25;exitY=1;exitDx=0;exitDy=0;entryX=0.75;entryY=1;entryDx=0;entryDy=0;" parent="1" source="3" target="7" edge="1">
+                    <mxGeometry relative="1" as="geometry">
+                        <Array as="points">
+                            <mxPoint x="730" y="191.96"/>
+                            <mxPoint x="488" y="191.96"/>
+                        </Array>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="3" value="Service" style="rounded=1;whiteSpace=wrap;html=1;" parent="1" vertex="1">
+                    <mxGeometry x="700" y="105.96000000000001" width="120" height="60" as="geometry"/>
+                </mxCell>
+                <mxCell id="14" style="edgeStyle=orthogonalEdgeStyle;curved=1;html=1;exitX=1;exitY=0.75;exitDx=0;exitDy=0;entryX=0.5;entryY=1;entryDx=0;entryDy=0;" parent="1" source="6" target="3" edge="1">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="6" value="client.SetStuden()" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;" parent="1" vertex="1">
+                    <mxGeometry x="407" y="234" width="136" height="36" as="geometry"/>
+                </mxCell>
+                <mxCell id="10" style="edgeStyle=orthogonalEdgeStyle;html=1;exitX=0.75;exitY=0;exitDx=0;exitDy=0;entryX=0.25;entryY=0;entryDx=0;entryDy=0;curved=1;" parent="1" source="7" target="3" edge="1">
+                    <mxGeometry relative="1" as="geometry">
+                        <Array as="points">
+                            <mxPoint x="488" y="76.96000000000001"/>
+                            <mxPoint x="730" y="76.96000000000001"/>
+                        </Array>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="7" value="Client" style="rounded=1;whiteSpace=wrap;html=1;" parent="1" vertex="1">
+                    <mxGeometry x="398" y="105.96000000000001" width="120" height="60" as="geometry"/>
+                </mxCell>
+                <mxCell id="9" value="&lt;h1&gt;RPC&lt;/h1&gt;&lt;p&gt;El cliente invoca cierta rutina en el servidor y éste nos devuelve una respuesta. La variacion es que esto se implementa en el client de esta forma&amp;nbsp;&lt;span&gt;client.SetStudent() y le puede enviar parametros y pareciera que todo eso estuviera implemetado del lado del cliente&amp;nbsp; pero RPC esa llamado el .SetStudent() se hará del lado del servidor y vivira dentro del servidor pero se viera como si el cliente tuviera la implementacio&lt;br&gt;&lt;br&gt;RPC: Una manera que nos permite establecer comunicacion entre un cliente y servidor pero que oculta por completo esa implementacion es invicible para el cliente pero la invoca como si fuera suya&amp;nbsp;&lt;/span&gt;&lt;/p&gt;" style="text;html=1;strokeColor=none;fillColor=none;spacing=5;spacingTop=-20;whiteSpace=wrap;overflow=hidden;rounded=0;" parent="1" vertex="1">
+                    <mxGeometry x="13" y="25" width="362" height="283" as="geometry"/>
+                </mxCell>
+                <mxCell id="12" style="edgeStyle=orthogonalEdgeStyle;curved=1;html=1;exitX=0.25;exitY=0;exitDx=0;exitDy=0;entryX=0.75;entryY=0;entryDx=0;entryDy=0;" parent="1" source="6" target="6" edge="1">
+                    <mxGeometry relative="1" as="geometry">
+                        <Array as="points">
+                            <mxPoint x="480" y="207"/>
+                        </Array>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="13" value="Parametros" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;" parent="1" vertex="1">
+                    <mxGeometry x="446.5" y="187" width="60" height="30" as="geometry"/>
+                </mxCell>
+                <mxCell id="15" value="&lt;h1&gt;gRPC&lt;/h1&gt;&lt;p&gt;Google trabajo en un nuevo Framework que fuera más eficiente y que tuviera un alto rendimiento. Que fuera más veloz que el tradicional RPC.&amp;nbsp;&lt;br&gt;&lt;br&gt;1. HTTP V2 vs V1&amp;nbsp;&lt;/p&gt;&lt;p&gt;Usar multiplexacion para mandar multiples datos por TCP. En la version 1 solo se puede texto plano.&lt;/p&gt;&lt;p&gt;2. Protobuffers&lt;/p&gt;&lt;p&gt;Intercambio de datos serializados, Lo hace más rápido&lt;/p&gt;&lt;p&gt;3.&amp;nbsp; Streaming&lt;/p&gt;&lt;p&gt;Te dejara un canal abierto permitiendo mandar datos en tiempo real y es un metodo dentro del gRPC&amp;nbsp;&amp;nbsp;&lt;/p&gt;&lt;p&gt;* Unario: Cliente solicita el server responde&lt;br&gt;&lt;span&gt;* Streaming Client: El cliente envia constantemente datos y el server solo responde una vez&lt;br&gt;&lt;/span&gt;&lt;span&gt;* Streaming Inverso: El servidor envia datos constantemente pero el cliente responde una vez&lt;br&gt;&lt;/span&gt;&lt;span&gt;* Streamin Combinado: Tanto como el servidor y el cliente envian y reciben datos simultaneamente pero las respuesta son independiente. El cliente puede mandar &quot;m&quot; mensajes y el server responder &quot;n&quot; mensajes .&lt;/span&gt;&lt;/p&gt;" style="text;html=1;strokeColor=none;fillColor=none;spacing=5;spacingTop=-20;whiteSpace=wrap;overflow=hidden;rounded=0;" parent="1" vertex="1">
+                    <mxGeometry x="19" y="417" width="771" height="376" as="geometry"/>
+                </mxCell>
+                <mxCell id="16" value="&lt;h1&gt;Protobuffer vs Json&lt;/h1&gt;&lt;p&gt;El problema con los json es la serializacion y deserializacion de los datos a nivel humano es muy facil entender su structura pero esos datos hay que pasarlo a Go, Python, C++, etc. Para poder ser entendido tiene que ocurrier esa serializacion y para devolverlos tambien por lo cual es muy lento relativamente &quot;nanosegundos&quot;&lt;/p&gt;&lt;p&gt;Protobuffers funciona diferente, se crea un archivo .proto y se usa un compiladr &quot;protoc&quot; para el lenguaje que se este usando myfile.pb.go. Ese archivo es agnostico al lenguaje de programacion, siempre sera compatible gracias el compilador por lo cual la estructura de dato siempre va a funcionar. Es más rapido de que json ya que hay que definir la estructura de datos y el orden de como va a estar esto ocurren en la serializacion y deserializacion&lt;br&gt;&lt;br&gt;Json&lt;span style=&quot;white-space: pre&quot;&gt;&#9;&lt;/span&gt;&lt;span style=&quot;white-space: pre&quot;&gt;&#9;&lt;/span&gt;&lt;span style=&quot;white-space: pre&quot;&gt;&#9;&lt;/span&gt;&lt;span style=&quot;white-space: pre&quot;&gt;&#9;&lt;/span&gt;&lt;span style=&quot;white-space: pre&quot;&gt;&#9;&lt;/span&gt;&lt;span style=&quot;white-space: pre&quot;&gt;&#9;&lt;/span&gt;&lt;span style=&quot;white-space: pre&quot;&gt;&#9;&lt;/span&gt;&lt;span style=&quot;white-space: pre&quot;&gt;&#9;&lt;/span&gt;&lt;span style=&quot;white-space: pre&quot;&gt;&#9;&lt;/span&gt;&lt;span style=&quot;white-space: pre&quot;&gt;&#9;&lt;/span&gt;&lt;span&gt;&#9;&lt;/span&gt;&lt;span&gt;&#9;&lt;/span&gt;&lt;span&gt;&#9;&lt;/span&gt;&lt;span&gt;&#9;&lt;/span&gt;&lt;span&gt;&#9;&lt;/span&gt;&lt;span&gt;&#9;&lt;/span&gt;&lt;span&gt;&#9;&lt;/span&gt;&lt;span&gt;&#9;&lt;/span&gt;&lt;span&gt;&#9;&lt;/span&gt;&lt;span&gt;&#9;&lt;/span&gt;&lt;span&gt;&#9;&lt;/span&gt;&lt;span&gt;&#9;&lt;/span&gt;&lt;span&gt;&#9;&lt;/span&gt;&lt;span&gt;&#9;&lt;/span&gt;&lt;span&gt;&#9;&lt;/span&gt;&lt;span&gt;&#9;&lt;/span&gt;&lt;span&gt;&#9;&lt;/span&gt;&lt;span&gt;&#9;&lt;/span&gt;&lt;span&gt;&#9;&lt;/span&gt;&lt;span&gt;&#9;&lt;/span&gt;Protobuffer&lt;/p&gt;&lt;p&gt;* Aplicación requiere&amp;nbsp;&lt;span&gt;que la data sea más&amp;nbsp;&lt;/span&gt;&lt;span&gt;flexible&lt;span&gt;&#9;&lt;span style=&quot;white-space: pre&quot;&gt;&#9;&lt;/span&gt;&lt;span style=&quot;white-space: pre&quot;&gt;&#9;&lt;/span&gt;&lt;span&gt;&#9;&lt;/span&gt;&lt;span&gt;&#9;&lt;/span&gt;&lt;/span&gt;&lt;span&gt;&#9;&lt;/span&gt;*&amp;nbsp;&lt;/span&gt;&lt;span&gt;Aplicación necesita&amp;nbsp;&lt;/span&gt;&lt;span&gt;correr muy rápido&lt;/span&gt;&lt;/p&gt;&lt;p&gt;&lt;span&gt;&lt;span&gt;&#9;&lt;/span&gt;&lt;span&gt;&#9;&lt;/span&gt;&lt;span&gt;&#9;&lt;/span&gt;&lt;span&gt;&#9;&lt;/span&gt;&lt;span&gt;&#9;&lt;/span&gt;&lt;span&gt;&#9;&lt;/span&gt;&lt;span&gt;&#9;&lt;/span&gt;&lt;span&gt;&#9;&lt;/span&gt;&lt;span&gt;&#9;&lt;/span&gt;&lt;span&gt;&#9;&lt;/span&gt;&lt;span&gt;&#9;&lt;/span&gt;&lt;span style=&quot;white-space: pre&quot;&gt;&#9;&lt;/span&gt;&lt;span style=&quot;white-space: pre&quot;&gt;&#9;&lt;/span&gt;&lt;span style=&quot;white-space: pre&quot;&gt;&#9;&lt;/span&gt;&lt;span style=&quot;white-space: pre&quot;&gt;&#9;&lt;/span&gt;&lt;span style=&quot;white-space: pre&quot;&gt;&#9;&lt;/span&gt;&lt;span style=&quot;white-space: pre&quot;&gt;&#9;&lt;/span&gt;&lt;span style=&quot;white-space: pre&quot;&gt;&#9;&lt;/span&gt;&lt;span style=&quot;white-space: pre&quot;&gt;&#9;&lt;/span&gt;&lt;span style=&quot;white-space: pre&quot;&gt;&#9;&lt;/span&gt;&lt;span style=&quot;white-space: pre&quot;&gt;&#9;&lt;/span&gt;&lt;span style=&quot;white-space: pre&quot;&gt;&#9;&lt;/span&gt;*&amp;nbsp;&amp;nbsp;&lt;/span&gt;&lt;span&gt;Procesos de&amp;nbsp;&lt;/span&gt;&lt;span&gt;serializacióny&amp;nbsp;&lt;/span&gt;&lt;span&gt;deserialización&amp;nbsp;&lt;/span&gt;&lt;span&gt;deben ocurrir rápido&lt;/span&gt;&lt;/p&gt;&lt;p&gt;Cuando usar uno con el otro, si mi aplicacion necesita ser muy, muy rapida lo mejor es usar protobuffer&amp;nbsp;&lt;/p&gt;&lt;p&gt;&lt;br&gt;&lt;/p&gt;" style="text;html=1;strokeColor=none;fillColor=none;spacing=5;spacingTop=-20;whiteSpace=wrap;overflow=hidden;rounded=0;" vertex="1" parent="1">
+                    <mxGeometry x="19" y="777" width="740" height="305" as="geometry"/>
+                </mxCell>
+            </root>
+        </mxGraphModel>
+    </diagram>
+</mxfile>

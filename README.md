@@ -19,3 +19,16 @@ la extencion de este archivo es .proto
 Ahora tenemos Student.proto como hacemos para pasar eso a Go, pues tenemos la compilación a traves del compilador de buffer que se llama protoC pasara lo que este en Student.proto a un codigo de Go
 
 https://developers.google.com/protocol-buffers/docs/reference/go-generated
+
+Esto es para poder trabajar con los protobufer
+$ go get google.golang.org/protobuf
+
+Quick start | Go | gRPC
+https://grpc.io/docs/languages/go/quickstart/
+
+Database 
+go get github.com/lib/pq
+
+Necesario apra los servicios de grpc, para poder implementar clientes 
+y servidores
+go get google.golang.org/grpc
