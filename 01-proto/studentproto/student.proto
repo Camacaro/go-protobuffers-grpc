@@ -9,7 +9,7 @@ package  student;
   Que se va a crear a partir de este codigo
   path -> CARPETA_PRINCIPAL/SUB_CARPETA/(estando en la raiz del go.mod)/NAME_MODULE;NAME_FILE
 */
-option go_package = "go-protobuffers-grpc/01-proto/gogrpc;studentpb";
+option go_package = "go-protobuffers-grpc/01-proto/gogrpc/studentproto";
 
 // Estructura 
 message Student {

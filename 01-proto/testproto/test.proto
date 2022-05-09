@@ -1,8 +1,11 @@
 syntax = "proto3";
 
+// Importar messages de otro archivo, desde la carpeta origin 01-proto
+import "studentproto/student.proto";
+
 package test;
 
-option go_package = "go-protobuffers-grpc/01-proto/gogrpc;testproto";
+option go_package = "go-protobuffers-grpc/01-proto/gogrpc/testproto";
 
 message Test {
   string id = 1;
@@ -22,6 +25,17 @@ message SetQuestionResponse {
   bool ok = 1;
 }
 
+// Esto es parque de la implementacion de streaming de lado del server
+message EnrollmentRquest {
+  string student_id = 1;
+  string test_id = 2;
+}
+
+// Esto es parque de la implementacion de streaming de lado del server
+message GetStudentsPerTestRequest {
+  string test_id = 1;
+}
+
 message GetTestRequest {
   string id = 1;
 }
@@ -36,6 +50,10 @@ service TestService {
   rpc SetTest(Test) returns (SetTestResponse);
   // Esto es parte del streaming lado de cliente Al invocar el SetQuestion, el cliente va a enviar una serie de preguntas, un streamin de data
   rpc SetQuestion(stream Question) returns (SetQuestionResponse);
+
+  // Esto es parte del streaming lado de server
+  rpc EnrollStudents(stream EnrollmentRquest) returns (SetQuestionResponse);
+  rpc GetStudentsPerTest(GetStudentsPerTestRequest) returns (stream student.Student); 
 }
 
 // $ protoc --go_out=. --go_opt=paths=source_relative --go-grpc_out=. --go-grpc_opt=paths=source_relative testproto/test.proto
