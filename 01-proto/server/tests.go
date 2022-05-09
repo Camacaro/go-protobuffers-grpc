@@ -5,6 +5,8 @@ import (
 	"go-grpc/models"
 	"go-grpc/repository"
 	"go-grpc/testproto"
+	"io"
+	"log"
 )
 
 type TestServer struct {
@@ -44,33 +46,48 @@ func (s *TestServer) SetTest(ctx context.Context, req *testproto.Test) (*testpro
 	}, nil
 }
 
-// func (s *TestServer) SetQuestions(stream testproto.TestService_SetQuestionsServer) error {
-// 	for {
-// 		msg, err := stream.Recv()
-// 		if err == io.EOF {
-// 			return stream.SendAndClose(&testproto.SetQuestionResponse{
-// 				Ok: true,
-// 			})
-// 		}
-// 		if err != nil {
-// 			log.Fatalf("Error reading stream: %v", err)
-// 			return err
-// 		}
-// 		question := &models.Question{
-// 			Id:       msg.GetId(),
-// 			Answer:   msg.GetAnswer(),
-// 			Question: msg.GetQuestion(),
-// 			TestId:   msg.GetTestId(),
-// 		}
-// 		err = s.repo.SetQuestion(context.Background(), question)
-// 		if err != nil {
-// 			return stream.SendAndClose(&testproto.SetQuestionResponse{
-// 				Ok: false,
-// 			})
-// 		}
+/*
+	Esto es parte de la implemantacion de streaming del lado de cliente
 
-// 	}
-// }
+	Cuando se abre la conexion se puede enviar todos los mensajes que quiera ,
+	hasta que lo cierro y ahi el server me resonde
+*/
+func (s *TestServer) SetQuestion(stream testproto.TestService_SetQuestionServer) error {
+	// Iteramos porque no sabemos con exactitud cuantas peticiones vamos a recibir, preguntas a recibir
+	for {
+		// Llamamos el stream, esto se va a bloquear hasta recibir una peticion del cliente
+		msg, err := stream.Recv()
+
+		// EOF: End of File, es una condicion de salida del cliente, el lo ha terminado y quiere la respuesta
+		if err == io.EOF {
+			// Esto es para terminar el stream y devolver la respuesta
+			return stream.SendAndClose(&testproto.SetQuestionResponse{
+				Ok: true,
+			})
+		}
+
+		if err != nil {
+			log.Fatalf("Error reading stream: %v", err)
+			return err
+		}
+
+		question := &models.Question{
+			Id:       msg.GetId(),
+			Answer:   msg.GetAnswer(),
+			Question: msg.GetQuestion(),
+			TestId:   msg.GetTestId(),
+		}
+
+		err = s.repo.SetQuestion(context.Background(), question)
+
+		if err != nil {
+			log.Fatalf("Error setting question: %v", err)
+			return stream.SendAndClose(&testproto.SetQuestionResponse{
+				Ok: false,
+			})
+		}
+	}
+}
 
 // func (s *TestServer) EnrollStudents(stream testproto.TestService_EnrollStudentsServer) error {
 // 	for {

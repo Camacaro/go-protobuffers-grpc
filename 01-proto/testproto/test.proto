@@ -2,11 +2,24 @@ syntax = "proto3";
 
 package test;
 
-option go_package = "go-protobuffers-grpc/01-proto/gogrpc;testpb";
+option go_package = "go-protobuffers-grpc/01-proto/gogrpc;testproto";
 
 message Test {
   string id = 1;
   string name = 2;
+}
+
+// Esto es parte del streaming  lado de cliente
+message Question {
+  string id = 1;
+  string answer = 2;
+  string question = 3;
+  string test_id = 4;
+}
+
+// Esto es parte del streaming lado de cliente, el servidor va a responder 
+message SetQuestionResponse {
+  bool ok = 1;
 }
 
 message GetTestRequest {
@@ -21,6 +34,8 @@ message SetTestResponse {
 service TestService {
   rpc GetTest(GetTestRequest) returns (Test);
   rpc SetTest(Test) returns (SetTestResponse);
+  // Esto es parte del streaming lado de cliente Al invocar el SetQuestion, el cliente va a enviar una serie de preguntas, un streamin de data
+  rpc SetQuestion(stream Question) returns (SetQuestionResponse);
 }
 
 // $ protoc --go_out=. --go_opt=paths=source_relative --go-grpc_out=. --go-grpc_opt=paths=source_relative testproto/test.proto

@@ -85,3 +85,35 @@ func (r *PostgresRepository) GetTest(ctx context.Context, id string) (*models.Te
 
 	return &test, nil
 }
+
+func (r *PostgresRepository) SetQuestion(ctx context.Context, question *models.Question) error {
+	_, err := r.db.ExecContext(ctx, "INSERT INTO questions (id, answer, question, test_id) VALUES ($1, $2, $3, $4)", question.Id, question.Answer, question.Question, question.TestId)
+	return err
+}
+
+func (r *PostgresRepository) GetQuestion(ctx context.Context, id string) (*models.Question, error) {
+	rows, err := r.db.QueryContext(ctx, "SELECT id, answer, question, test_id FROM questions WHERE id = $1", id)
+	if err != nil {
+		return nil, err
+	}
+
+	defer func() {
+		err := rows.Close()
+		if err != nil {
+			log.Fatal("Error closing rows: ", err)
+		}
+	}()
+
+	var question = models.Question{}
+
+	for rows.Next() {
+		err := rows.Scan(&question.Id, &question.Answer, &question.Question, &question.TestId)
+		if err != nil {
+			return nil, err
+		}
+
+		return &question, nil
+	}
+
+	return &question, nil
+}
