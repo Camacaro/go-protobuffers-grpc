@@ -1,0 +1,26 @@
+syntax = "proto3";
+
+package test;
+
+option go_package = "go-protobuffers-grpc/01-proto/gogrpc;testpb";
+
+message Test {
+  string id = 1;
+  string name = 2;
+}
+
+message GetTestRequest {
+  string id = 1;
+}
+
+message SetTestResponse {
+  string id = 1;
+  string name = 2;
+}
+
+service TestService {
+  rpc GetTest(GetTestRequest) returns (Test);
+  rpc SetTest(Test) returns (SetTestResponse);
+}
+
+// $ protoc --go_out=. --go_opt=paths=source_relative --go-grpc_out=. --go-grpc_opt=paths=source_relative testproto/test.proto
