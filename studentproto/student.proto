@@ -9,7 +9,8 @@ package  student;
   Que se va a crear a partir de este codigo
   path -> CARPETA_PRINCIPAL/SUB_CARPETA/(estando en la raiz del go.mod)/NAME_MODULE;NAME_FILE
 */
-option go_package = "go-protobuffers-grpc/01-proto/gogrpc/studentproto";
+// option go_package = "go-protobuffers-grpc/01-proto/gogrpc/studentproto";
+option go_package = "go-grpc/studentproto";
 
 // Estructura 
 message Student {
@@ -28,7 +29,7 @@ message Student {
 // Ahora vamos a poder compilar nuestro protobor de buffer
 // Paquete de protobuffer a paquete de go (Ejecutar este comando desde la raiz del go.mod)
 // $ protoc --go_out=. --go_opt=paths=source_relative --go-grpc_out=. --go-grpc_opt=paths=source_relative studentproto/student.proto
-
+// ESTE -> protoc --go_out=. --go_opt=paths=source_relative --go-grpc_out=. --go-grpc_opt=paths=source_relative studentproto/student.proto
 
 // Windows 
 // $ sudo apt install protobuf-compiler

@@ -5,7 +5,8 @@ import "studentproto/student.proto";
 
 package test;
 
-option go_package = "go-protobuffers-grpc/01-proto/gogrpc/testproto";
+// option go_package = "go-protobuffers-grpc/01-proto/gogrpc/testproto";
+option go_package = "go-grpc/testproto";
 
 message Test {
   string id = 1;
