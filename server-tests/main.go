@@ -2,6 +2,7 @@ package main
 
 import (
 	"go-grpc/database"
+	"go-grpc/server"
 	"go-grpc/testproto"
 	"log"
 	"net"

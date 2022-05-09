@@ -2,11 +2,14 @@ package server
 
 import (
 	"context"
+	"fmt"
 	"go-grpc/models"
 	"go-grpc/repository"
+	"go-grpc/studentproto"
 	"go-grpc/testproto"
 	"io"
 	"log"
+	"time"
 )
 
 type TestServer struct {
@@ -89,51 +92,65 @@ func (s *TestServer) SetQuestion(stream testproto.TestService_SetQuestionServer)
 	}
 }
 
-// func (s *TestServer) EnrollStudents(stream testproto.TestService_EnrollStudentsServer) error {
-// 	for {
-// 		msg, err := stream.Recv()
-// 		if err == io.EOF {
-// 			return stream.SendAndClose(&testproto.SetQuestionResponse{
-// 				Ok: true,
-// 			})
-// 		}
-// 		if err != nil {
-// 			log.Fatalf("Error reading stream: %v", err)
-// 			return err
-// 		}
-// 		enrollment := &models.Enrollment{
-// 			StudentId: msg.GetStudentId(),
-// 			TestId:    msg.GetTestId(),
-// 		}
-// 		err = s.repo.SetEnrollment(context.Background(), enrollment)
-// 		if err != nil {
-// 			return stream.SendAndClose(&testproto.SetQuestionResponse{
-// 				Ok: false,
-// 			})
-// 		}
+// Esto es parte de la implemantacion de streaming del lado de server
+func (s *TestServer) EnrollStudents(stream testproto.TestService_EnrollStudentsServer) error {
+	for {
+		msg, err := stream.Recv()
+		if err == io.EOF {
+			return stream.SendAndClose(&testproto.SetQuestionResponse{
+				Ok: true,
+			})
+		}
+		if err != nil {
+			log.Fatalf("Error reading stream: %v", err)
+			return err
+		}
+		enrollment := &models.Enrollment{
+			StudentId: msg.GetStudentId(),
+			TestId:    msg.GetTestId(),
+		}
+		err = s.repo.SetEnrollment(context.Background(), enrollment)
+		if err != nil {
+			return stream.SendAndClose(&testproto.SetQuestionResponse{
+				Ok: false,
+			})
+		}
 
-// 	}
-// }
+	}
+}
 
-// func (s *TestServer) GetStudentsPerTest(req *testproto.GetStudentsPerTestRequest, stream testproto.TestService_GetStudentsPerTestServer) error {
-// 	students, err := s.repo.GetStudentsPerTest(context.Background(), req.GetTestId())
-// 	if err != nil {
-// 		return err
-// 	}
-// 	for _, student := range students {
-// 		student := &studentpb.Student{
-// 			Id:   student.Id,
-// 			Name: student.Name,
-// 			Age:  student.Age,
-// 		}
-// 		err := stream.Send(student)
-// 		time.Sleep(2 * time.Second)
-// 		if err != nil {
-// 			return err
-// 		}
-// 	}
-// 	return nil
-// }
+/*
+	Esto es parte de la implemantacion de streaming del lado de server
+	Aqui tenemos que devolver un stream de datos constantemente
+
+	El segundo parametro stream, es el que usaremos para devolver los datos
+*/
+func (s *TestServer) GetStudentsPerTest(req *testproto.GetStudentsPerTestRequest, stream testproto.TestService_GetStudentsPerTestServer) error {
+	// Leeremos los estudiantes que estan inscritos en el test
+	fmt.Println("GetStudentsPerTest", req.GetTestId())
+	students, err := s.repo.GetStudentsPerTest(context.Background(), req.GetTestId())
+	if err != nil {
+		return err
+	}
+
+	for _, student := range students {
+		student := &studentproto.Student{
+			Id:   student.Id,
+			Name: student.Name,
+			Age:  student.Age,
+		}
+		// Enviamos el estudiante al cliente
+		err := stream.Send(student)
+
+		// Solo por practica, dar una simulacion de el server esta tardando
+		time.Sleep(2 * time.Second)
+
+		if err != nil {
+			return err
+		}
+	}
+	return nil
+}
 
 // func (s *TestServer) TakeTest(stream testproto.TestService_TakeTestServer) error {
 // 	questions, err := s.repo.GetQuestionsPerTest(context.Background(), "t1")
