@@ -37,6 +37,11 @@ message GetStudentsPerTestRequest {
   string test_id = 1;
 }
 
+// Implementacion Strameaming bidireccional
+message TakeTestRequest {
+  string answer = 1;
+}
+
 message GetTestRequest {
   string id = 1;
 }
@@ -55,6 +60,9 @@ service TestService {
   // Esto es parte del streaming lado de server
   rpc EnrollStudents(stream EnrollmentRquest) returns (SetQuestionResponse);
   rpc GetStudentsPerTest(GetStudentsPerTestRequest) returns (stream student.Student); 
+  // Implementacion Strameaming bidireccional
+  // tomar un test, enviar respuesta de ese test y el servidor va a enviar las preguntas uqe se hacen en ese test
+  rpc TakeTest(stream TakeTestRequest) returns (stream Question);
 }
 
 // $ protoc --go_out=. --go_opt=paths=source_relative --go-grpc_out=. --go-grpc_opt=paths=source_relative testproto/test.proto

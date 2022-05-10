@@ -152,38 +152,52 @@ func (s *TestServer) GetStudentsPerTest(req *testproto.GetStudentsPerTestRequest
 	return nil
 }
 
-// func (s *TestServer) TakeTest(stream testproto.TestService_TakeTestServer) error {
-// 	questions, err := s.repo.GetQuestionsPerTest(context.Background(), "t1")
-// 	if err != nil {
-// 		return err
-// 	}
-// 	i := 0
-// 	var currentQuestion = &models.Question{}
-// 	for {
-// 		if i < len(questions) {
-// 			currentQuestion = questions[i]
-// 		}
+/*
+	Esto es de la implementacion de streaming bidireccional
 
-// 		if i <= len(questions)-1 {
-// 			questionToSend := &testproto.Question{
-// 				Id:       currentQuestion.Id,
-// 				Question: currentQuestion.Question,
-// 			}
-// 			err := stream.Send(questionToSend)
-// 			if err != nil {
-// 				log.Printf("Error sending question: %v", err)
-// 				return err
-// 			}
-// 			i++
-// 		}
-// 		answer, err := stream.Recv()
-// 		if err == io.EOF {
-// 			return nil
-// 		}
-// 		if err != nil {
-// 			log.Printf("Error receiving answer: %v", err)
-// 			return err
-// 		}
-// 		log.Println("Answer for question:", currentQuestion.Question, "is", answer.GetAnswer())
-// 	}
-// }
+	stream, sirve para enviar y recibir datos,
+	Tiene la interfaz de enviar(Send) y recibir(Recv)
+*/
+func (s *TestServer) TakeTest(stream testproto.TestService_TakeTestServer) error {
+	// Aqui el id del test esta en duro
+	questions, err := s.repo.GetQuestionsPerTest(context.Background(), "t2")
+
+	if err != nil {
+		return err
+	}
+
+	i := 0
+	var currentQuestion = &models.Question{}
+	for {
+		if i < len(questions) {
+			currentQuestion = questions[i]
+		}
+
+		if i <= len(questions)-1 {
+			// Esta es la respuesta que le enviamos al cliente
+			questionToSend := &testproto.Question{
+				Id:       currentQuestion.Id,
+				Question: currentQuestion.Question,
+			}
+			// Enviamos la pregunta al cliente
+			err := stream.Send(questionToSend)
+
+			if err != nil {
+				log.Printf("Error sending question: %v", err)
+				return err
+			}
+			i++
+		}
+
+		// Esperamos la respuesta del cliente
+		answer, err := stream.Recv()
+		if err == io.EOF {
+			return nil
+		}
+		if err != nil {
+			log.Printf("Error receiving answer: %v", err)
+			return err
+		}
+		log.Println("Answer for question:", currentQuestion.Question, "is", answer.GetAnswer())
+	}
+}

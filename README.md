@@ -37,3 +37,25 @@ go get google.golang.org/grpc
 Docker database
 docker build . -t grpc-db
 docker run -p 54321:5432 grpc-db
+
+
+
+
+
+
+Implementando Strameaming del lado del cliente
+
+Enviaremos una serie de preguntar al servidor
+para que sean almacenadas y nos devuelva una sola
+respuesta
+
+Implementando el Strameaming del lado del servidor 
+Se envia un dato, y el servidor empieza a transmitir datos
+hasta que se acabe de enviarlos todos 
+
+Implementacion Strameaming bidireccional
+Tanto como el cliente como el servidor van a enviar 
+y recibir data al mismo tiempo. 
+
+Quedo la duda de como mandar un parametro configurable 
+para cambiar las preguntas del test. Se puede recibir parametos aparte?
