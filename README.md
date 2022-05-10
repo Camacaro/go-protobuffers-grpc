@@ -49,3 +49,23 @@ Se complican si queremos conectar gRPC en una aplicacion web ya que  no hay una 
 
 * [grpc-web](https://github.com/grpc/grpc-web)
 * [envoy](https://www.envoyproxy.io)
+
+## Tips
+* RPC: Remote Procedure Call
+* ¿Qué nos permite RPC? Ejecutar código de un servidor como si hubiera sido implementado en los clientes.
+* Que es gRPC: Un Framework de alto rendimiento para implementaciones de RPC.
+* Protobuffers:  Nos permite definir messages y estructuras de datos fuertemente tipadas.
+* ventaja de ProtoBuffer sobre JSON: Mejores velocidades de serialización/deserialización.
+* ventaja de JSON sobre ProtoBuffer: Más fácil de leer a nivel humano.
+* **Método Unary/Unario de gRPC**: Similar al fomato request/response en el cuál la interacción ocurre de una a una.
+* **método Client Streaming/Streaming del Lado del Cliente**: El cliente envía la data a través de un streaming y el servidor va a responder una sola vez.
+* **método Server Streaming/Streaming del lado del Servidor**: El cliente envía una sola vez la data y el servidor responde utilizando un streaming.
+* **método Bidirectional Streaming/Streaming bidireccional:** Ambos, cliente y servidor se comunican utilizando streaming.
+* **alternativas para implementar gRPC directamente en el navegador:** El proyecto grpc-web y un proxy grpc/rest.
+* **Dos grandes innovaciones de gRPC:** HTTP2 y ProtoBuffers
+* **compilador de ProtoBuffer:** protoc
+* **compilación de un archivo .proto con las opciones de Go:**: Un paquete de Go
+* **servicio Unary/Unario:** ```rpc Nombre(Request) returns (Response)```
+* **servicio con Client Streaming/Streaming del lado del Cliente:** ```rpc Nombre(stream Request) returns (Response)```
+* **servicio con Server Streaming/Streaming del lado del Servidor:** ```rpc Nombre(Request) returns (stream Response)```
+* **servicio con Bidirectional Streaming/Streaming Bidireccional:** ```rpc Nombre(stream Request) returns (stream Response)```
