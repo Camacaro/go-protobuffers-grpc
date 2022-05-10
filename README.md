@@ -59,3 +59,16 @@ y recibir data al mismo tiempo.
 
 Quedo la duda de como mandar un parametro configurable 
 para cambiar las preguntas del test. Se puede recibir parametos aparte?
+
+
+Limitaciones de gRPC 
+Se complican si queremos conectar esto a gRPC ya que 
+no hay una forma nativa de implementarolo pero existe una 
+manera, crear un Proxy Rest, el problema es que agremagos 
+una capa extra.
+
+creación de Proxy REST
+
+https://github.com/grpc/grpc-web
+
+https://www.envoyproxy.io
