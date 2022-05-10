@@ -160,7 +160,7 @@ func (s *TestServer) GetStudentsPerTest(req *testproto.GetStudentsPerTestRequest
 */
 func (s *TestServer) TakeTest(stream testproto.TestService_TakeTestServer) error {
 	// Aqui el id del test esta en duro
-	questions, err := s.repo.GetQuestionsPerTest(context.Background(), "t2")
+	questions, err := s.repo.GetQuestionsPerTest(context.Background(), "t1")
 
 	if err != nil {
 		return err

@@ -3,6 +3,7 @@ package main
 import (
 	"context"
 	"go-grpc/testproto"
+	"io"
 	"log"
 	"time"
 
@@ -27,10 +28,12 @@ func main() {
 	c := testproto.NewTestServiceClient(cc)
 
 	// DoUnary(c)
-	DoClientStreaming(c)
+	// DoClientStreaming(c)
+	// DoServerStreaming(c)
+	DoBidireccionalStreaming(c)
 }
 
-// Funcion cliente unario
+// Funcion cliente unario, esto es lo mas parecito a REST api
 func DoUnary(c testproto.TestServiceClient) {
 	req := &testproto.GetTestRequest{
 		Id: "t1",
@@ -92,4 +95,88 @@ func DoClientStreaming(c testproto.TestServiceClient) {
 	}
 
 	log.Printf("Server Answer: %v", msg)
+}
+
+func DoServerStreaming(c testproto.TestServiceClient) {
+	req := &testproto.GetStudentsPerTestRequest{
+		TestId: "t1",
+	}
+
+	stream, err := c.GetStudentsPerTest(context.Background(), req)
+
+	if err != nil {
+		log.Fatalf("error while calling GetStudentsPerTest: %v", err)
+	}
+
+	// Indefinida porque no sabemos cuantos estudiantes vamos a recibi
+	for {
+		student, err := stream.Recv()
+
+		if err == io.EOF {
+			break
+		}
+
+		if err != nil {
+			log.Fatalf("error while reading stream: %v", err)
+		}
+
+		log.Printf("Student: %v", student)
+	}
+}
+
+func DoBidireccionalStreaming(c testproto.TestServiceClient) {
+	answer := testproto.TakeTestRequest{
+		Answer: "Azul",
+	}
+
+	numberOfQuestions := 3
+
+	// Para emular el comportamiento de una persona que contesta una pregunta
+	// y el server responde con una pregunta
+
+	/*
+		Para emular el comportamiento de enviar un streaming y
+		recibir un streaming vamos a crear una goRoutina para
+		cada escenario
+	*/
+
+	// Nos va a servir para un chanel de control para bloquear el programa al ejecutar las goroutinas
+	waitChannel := make(chan struct{})
+
+	stream, err := c.TakeTest(context.Background())
+	if err != nil {
+		log.Fatalf("error while calling TakeTest: %v", err)
+	}
+
+	// Crear una goroutine para enviar las respuesta
+	go func() {
+		for i := 0; i < numberOfQuestions; i++ {
+			log.Printf("Sending answer: %v", answer.Answer)
+			stream.Send(&answer)
+			time.Sleep(2 * time.Second)
+		}
+	}()
+
+	// Crear una goroutine para recibir las preguntas
+	go func() {
+		// Indefinidas porque no sabemos cuantas veces va a responder el servidor
+		for {
+			res, err := stream.Recv()
+			if err == io.EOF {
+				break
+			}
+
+			if err != nil {
+				log.Fatalf("error while reading stream: %v", err)
+				break
+			}
+
+			log.Printf("Responde from server: %v", res.Question)
+		}
+
+		close(waitChannel)
+	}()
+
+	// Esperar que las goroutinas terminen
+	<-waitChannel
 }
